@@ -1,16 +1,37 @@
 "use client";
 
+import { type SVGProps } from "react";
 import { motion } from "framer-motion";
+import { LogoCarousel } from "@/components/ui/logo-carousel";
 
-const issuers = [
-  { name: "Chase", color: "#003087" },
-  { name: "Amex", color: "#006FCF" },
-  { name: "Citi", color: "#003B70" },
-  { name: "Capital One", color: "#004977" },
-  { name: "Bank of America", color: "#E31837" },
-  { name: "Discover", color: "#FF6000" },
-  { name: "Wells Fargo", color: "#D71E28" },
-  { name: "US Bank", color: "#0C2074" },
+function createImageLogo(src: string, alt: string) {
+  function ImageLogo(props: SVGProps<SVGSVGElement>) {
+    return (
+      <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <image
+          href={src}
+          x="10"
+          y="5"
+          width="180"
+          height="70"
+          preserveAspectRatio="xMidYMid meet"
+        />
+      </svg>
+    );
+  }
+  ImageLogo.displayName = `ImageLogo_${alt}`;
+  return ImageLogo;
+}
+
+const issuerLogos = [
+  { name: "Chase", id: 1, img: createImageLogo("/logos/chase.png", "Chase") },
+  { name: "Amex", id: 2, img: createImageLogo("/logos/amex.png", "Amex") },
+  { name: "Citi", id: 3, img: createImageLogo("/logos/citi.png", "Citi") },
+  { name: "Capital One", id: 4, img: createImageLogo("/logos/capital-one.png", "CapitalOne") },
+  { name: "Bank of America", id: 5, img: createImageLogo("/logos/bofa.png", "BofA") },
+  { name: "Discover", id: 6, img: createImageLogo("/logos/discover.png", "Discover") },
+  { name: "Wells Fargo", id: 7, img: createImageLogo("/logos/wells-fargo.png", "WellsFargo") },
+  { name: "US Bank", id: 8, img: createImageLogo("/logos/us-bank.svg", "USBank") },
 ];
 
 export default function CardCoverage() {
@@ -34,28 +55,17 @@ export default function CardCoverage() {
         </motion.div>
 
         <motion.div
-          className="flex flex-wrap justify-center gap-4 max-w-3xl mx-auto"
+          className="flex justify-center mb-14"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          {issuers.map((issuer) => (
-            <div
-              key={issuer.name}
-              className="bg-background rounded-xl px-6 py-4 border border-foreground/5 flex items-center gap-3 hover:shadow-md transition-shadow"
-            >
-              <div
-                className="w-3 h-3 rounded-full shrink-0"
-                style={{ backgroundColor: issuer.color }}
-              />
-              <span className="font-medium text-sm">{issuer.name}</span>
-            </div>
-          ))}
+          <LogoCarousel columnCount={4} logos={issuerLogos} />
         </motion.div>
 
         <motion.div
-          className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-2xl mx-auto text-center"
+          className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-2xl mx-auto text-center"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

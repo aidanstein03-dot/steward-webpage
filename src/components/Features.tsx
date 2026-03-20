@@ -9,6 +9,7 @@ import {
   Smartphone,
   Map,
 } from "lucide-react";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
 
 const features = [
   {
@@ -103,18 +104,28 @@ export default function Features() {
           {features.map((f) => (
             <motion.div
               key={f.title}
-              className="bg-background rounded-2xl p-6 border border-foreground/5 hover:shadow-lg hover:shadow-foreground/5 transition-shadow"
+              className="relative rounded-2xl border border-foreground/5 p-px"
               variants={itemVariants}
             >
-              <div
-                className={`w-11 h-11 rounded-xl ${f.bg} flex items-center justify-center mb-4`}
-              >
-                <f.icon className={`w-5 h-5 ${f.color}`} />
+              <GlowingEffect
+                spread={40}
+                glow={true}
+                disabled={false}
+                proximity={64}
+                inactiveZone={0.01}
+                borderWidth={3}
+              />
+              <div className="relative bg-background rounded-2xl p-6 h-full">
+                <div
+                  className={`w-11 h-11 rounded-xl ${f.bg} flex items-center justify-center mb-4`}
+                >
+                  <f.icon className={`w-5 h-5 ${f.color}`} />
+                </div>
+                <h3 className="font-semibold text-lg mb-2">{f.title}</h3>
+                <p className="text-foreground-secondary text-sm leading-relaxed">
+                  {f.description}
+                </p>
               </div>
-              <h3 className="font-semibold text-lg mb-2">{f.title}</h3>
-              <p className="text-foreground-secondary text-sm leading-relaxed">
-                {f.description}
-              </p>
             </motion.div>
           ))}
         </motion.div>

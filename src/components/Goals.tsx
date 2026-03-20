@@ -2,6 +2,13 @@
 
 import { motion } from "framer-motion";
 import { Plane, Hotel, DollarSign, Crown } from "lucide-react";
+import dynamic from "next/dynamic";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
+
+const CanvasRevealEffect = dynamic(
+  () => import("@/components/ui/canvas-reveal-effect").then((m) => m.CanvasRevealEffect),
+  { ssr: false }
+);
 
 const goals = [
   {
@@ -40,8 +47,26 @@ const goals = [
 
 export default function Goals() {
   return (
-    <section id="goals" className="px-6 py-24">
-      <div className="mx-auto max-w-6xl">
+    <section id="goals" className="relative px-6 py-24 overflow-hidden">
+      {/* Blue dot matrix background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <CanvasRevealEffect
+          animationSpeed={3}
+          containerClassName="bg-transparent"
+          colors={[
+            [0, 122, 255],
+            [0, 122, 255],
+          ]}
+          dotSize={4}
+          opacities={[0.15, 0.15, 0.2, 0.2, 0.25, 0.25, 0.3, 0.3, 0.35, 0.4]}
+          showGradient={false}
+        />
+      </div>
+
+      {/* Radial fade so dots don't overwhelm content */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--background)_20%,_transparent_70%)] pointer-events-none" />
+
+      <div className="relative mx-auto max-w-6xl">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           {/* Copy */}
           <motion.div
@@ -88,30 +113,40 @@ export default function Goals() {
               {goals.map((goal) => (
                 <div
                   key={goal.title}
-                  className="bg-surface rounded-2xl p-5 border border-foreground/5"
+                  className="relative rounded-2xl border border-foreground/5 p-px"
                 >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div
-                      className={`w-9 h-9 rounded-lg ${goal.color}/15 flex items-center justify-center`}
-                    >
-                      <goal.icon className={`w-4.5 h-4.5 ${goal.color.replace("bg-", "text-")}`} />
+                  <GlowingEffect
+                    spread={40}
+                    glow={true}
+                    disabled={false}
+                    proximity={64}
+                    inactiveZone={0.01}
+                    borderWidth={3}
+                  />
+                  <div className="relative bg-surface rounded-2xl p-5">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div
+                        className={`w-9 h-9 rounded-lg ${goal.color}/15 flex items-center justify-center`}
+                      >
+                        <goal.icon className={`w-4.5 h-4.5 ${goal.color.replace("bg-", "text-")}`} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-semibold text-sm">{goal.title}</p>
+                        <p className="text-xs text-foreground-secondary">
+                          {goal.detail}
+                        </p>
+                      </div>
+                      <span className="text-sm font-bold">{goal.progress}%</span>
                     </div>
-                    <div className="flex-1">
-                      <p className="font-semibold text-sm">{goal.title}</p>
-                      <p className="text-xs text-foreground-secondary">
-                        {goal.detail}
-                      </p>
+                    <div className={`h-2 rounded-full ${goal.track}`}>
+                      <motion.div
+                        className={`h-2 rounded-full ${goal.color}`}
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${goal.progress}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                      />
                     </div>
-                    <span className="text-sm font-bold">{goal.progress}%</span>
-                  </div>
-                  <div className={`h-2 rounded-full ${goal.track}`}>
-                    <motion.div
-                      className={`h-2 rounded-full ${goal.color}`}
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${goal.progress}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.8, delay: 0.2 }}
-                    />
                   </div>
                 </div>
               ))}

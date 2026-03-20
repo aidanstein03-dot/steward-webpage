@@ -16,8 +16,8 @@ export default function Home() {
       <Features />
       <HowItWorks />
       <StackedBenefits />
-      <CardCoverage />
       <Goals />
+      <CardCoverage />
       <Download />
       <Footer />
     </>

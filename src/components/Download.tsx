@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CreditCard } from "lucide-react";
+import StewardLogo from "@/components/StewardLogo";
 
 export default function Download() {
   return (
@@ -13,8 +13,8 @@ export default function Download() {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary/20">
-          <CreditCard className="w-8 h-8 text-white" />
+        <div className="flex justify-center mb-6">
+          <StewardLogo size={120} />
         </div>
 
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
@@ -39,7 +39,7 @@ export default function Download() {
           </svg>
           <div className="text-left">
             <div className="text-xs opacity-70">Download on the</div>
-            <div className="text-base font-semibold -mt-0.5">App Store</div>
+            <div className="text-base font-semibold -mt-0.5">App Store soon...</div>
           </div>
         </a>
       </motion.div>

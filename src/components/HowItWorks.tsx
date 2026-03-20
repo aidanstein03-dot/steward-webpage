@@ -30,10 +30,51 @@ const steps = [
   },
 ];
 
+function FlowLines() {
+  const lines = [
+    { top: "20%", duration: 7, delay: 0, opacity: 0.3 },
+    { top: "35%", duration: 9, delay: 1.5, opacity: 0.25 },
+    { top: "50%", duration: 6, delay: 0.8, opacity: 0.35 },
+    { top: "65%", duration: 8, delay: 2.2, opacity: 0.25 },
+    { top: "80%", duration: 10, delay: 0.3, opacity: 0.3 },
+    { top: "30%", duration: 11, delay: 3, opacity: 0.2 },
+    { top: "55%", duration: 7.5, delay: 1, opacity: 0.35 },
+    { top: "45%", duration: 8.5, delay: 2.8, opacity: 0.2 },
+  ];
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {lines.map((line, i) => (
+        <motion.div
+          key={i}
+          className="absolute h-[2px] rounded-full"
+          style={{
+            top: line.top,
+            opacity: line.opacity,
+            width: "50%",
+            background:
+              "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 30%, white 50%, rgba(255,255,255,0.8) 70%, transparent 100%)",
+          }}
+          initial={{ x: "-50%" }}
+          animate={{ x: "200%" }}
+          transition={{
+            duration: line.duration,
+            delay: line.delay,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="px-6 py-24">
-      <div className="mx-auto max-w-6xl">
+    <section id="how-it-works" className="relative px-6 py-24 overflow-hidden">
+      <FlowLines />
+
+      <div className="relative mx-auto max-w-6xl">
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 16 }}

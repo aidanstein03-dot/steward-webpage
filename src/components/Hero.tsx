@@ -7,12 +7,34 @@ import {
   Star,
   ChevronRight,
 } from "lucide-react";
+import { Button as MovingBorderButton } from "@/components/ui/moving-border";
+import dynamic from "next/dynamic";
+
+const CanvasRevealEffect = dynamic(
+  () => import("@/components/ui/canvas-reveal-effect").then((m) => m.CanvasRevealEffect),
+  { ssr: false }
+);
 
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 pt-24 pb-16 overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+      {/* Dot matrix background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <CanvasRevealEffect
+          animationSpeed={3}
+          containerClassName="bg-transparent"
+          colors={[
+            [0, 122, 255],
+            [0, 122, 255],
+          ]}
+          dotSize={5}
+          opacities={[0.4, 0.4, 0.5, 0.5, 0.6, 0.6, 0.7, 0.7, 0.8, 1]}
+          showGradient={true}
+        />
+      </div>
+
+      {/* Radial fade so dots don't overwhelm the content */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--background)_15%,_transparent_60%)] pointer-events-none" />
 
       <div className="relative mx-auto max-w-6xl w-full flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
         {/* Copy */}
@@ -39,14 +61,18 @@ export default function Hero() {
             loyalty perks.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <a
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start">
+            <MovingBorderButton
+              as="a"
               href="#download"
-              className="inline-flex items-center justify-center gap-2 bg-primary text-white font-medium px-7 py-3.5 rounded-full hover:bg-primary/90 transition-colors text-base"
+              borderRadius="1.75rem"
+              containerClassName="h-14 w-52"
+              className="bg-background/80 dark:bg-slate-900/80 text-foreground dark:text-white border-foreground/10 dark:border-slate-800 font-medium text-base gap-2"
+              borderClassName="bg-[radial-gradient(var(--primary)_40%,transparent_60%)]"
             >
-              Download for iOS
+              Join the Waitlist
               <ChevronRight className="w-4 h-4" />
-            </a>
+            </MovingBorderButton>
             <a
               href="#how-it-works"
               className="inline-flex items-center justify-center gap-2 border border-foreground/10 font-medium px-7 py-3.5 rounded-full hover:bg-foreground/5 transition-colors text-base"
